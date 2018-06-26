@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		9DA3545F20E22B8700A540E5 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA3545E20E22B8700A540E5 /* main.swift */; };
+		9DA3546620E22BC000A540E5 /* AgileBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA3546520E22BC000A540E5 /* AgileBoard.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +26,7 @@
 /* Begin PBXFileReference section */
 		9DA3545B20E22B8700A540E5 /* DiUS-AgileBoard */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "DiUS-AgileBoard"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9DA3545E20E22B8700A540E5 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		9DA3546520E22BC000A540E5 /* AgileBoard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgileBoard.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +60,7 @@
 			isa = PBXGroup;
 			children = (
 				9DA3545E20E22B8700A540E5 /* main.swift */,
+				9DA3546520E22BC000A540E5 /* AgileBoard.swift */,
 			);
 			path = "DiUS-AgileBoard";
 			sourceTree = "<group>";
@@ -120,6 +123,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9DA3545F20E22B8700A540E5 /* main.swift in Sources */,
+				9DA3546620E22BC000A540E5 /* AgileBoard.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -242,9 +246,11 @@
 		9DA3546320E22B8700A540E5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Z8CRHK6M64;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
@@ -252,9 +258,11 @@
 		9DA3546420E22B8700A540E5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Z8CRHK6M64;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
