@@ -240,20 +240,30 @@ func undoMoveTests() throws {
 func wipLimitTests() throws {
 
     do {
-        let columns = [ Column(name: "starting", type: .starting, pointsLimit: 10),
-                        Column(name: "done", type: .done) ]
+        let columns = [ Column(name: "starting", type: .starting),
+                        Column(name: "done", type: .done, pointsLimit: 10) ]
 
         let board = try Board(columns: columns)
         let iteration = board.iteration
 
         let card = Card(title: "card title", description: "this is a card", estimate: 5)
-        try iteration.add(card: card)
-
         let card2 = Card(title: "card title", description: "this is a card", estimate: 5)
-        try iteration.add(card: card2)
-
         let card3 = Card(title: "card title", description: "this is a card", estimate: 5)
+        try iteration.add(card: card)
+        try iteration.add(card: card2)
         try iteration.add(card: card3)
+
+        try iteration.move(card: card, to: columns[1])
+        try iteration.move(card: card2, to: columns[1])
+        do {
+            try iteration.move(card: card3, to: columns[1])
+            assertionFailure("Should throw WIPLimitExceeded error")
+        }
+        catch BoardError.WIPLimitExceeded {
+        }
+        catch {
+            assertionFailure("unexpected error: \(error)")
+        }
 
     }
     catch {
