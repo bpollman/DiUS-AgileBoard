@@ -5,6 +5,7 @@
 //  Created by Ben Pollman on 6/26/18.
 //  Copyright © 2018 Bernard Pollman. All rights reserved.
 //
+
 /*
  DiUS are keen on this "Agile" thing. We want to develop a tracking system for Agile cards.
 
@@ -20,7 +21,7 @@
  - You can calculate the velocity of a given iteration. This is defined as the sum of the points of all cards that are in the done column for an iteration.
  - You can get all the cards in a particular column
  - You can enforce a work in progress limit (expressed in points) for a column. If you try and add a card to a column that goes above the WIP limit, an exception should be thrown
- - Your interface should look something like the folllowing:
+ - Your interface should look something like the following:
 
  board = new Board(columns);
  iteration.add(card);
@@ -40,6 +41,9 @@
 
 import Foundation
 
+//
+// Test use case from the Challenge
+//
 func defaultTest() throws {
 
     do {
@@ -50,18 +54,18 @@ func defaultTest() throws {
         let iteration = board.iteration
 
         var v = iteration.velocity()
-        assert( v == 0, "velocity == 0, velocity = \(v)")
+        assert(v == 0, "velocity == 0, velocity = \(v)")
 
         let card = Card(title: "card title", description: "this is a card", estimate: 5)
         try iteration.add(card: card)
 
         v = iteration.velocity()
-        assert( v == 0, "velocity == 0, velocity = \(v)")
+        assert(v == 0, "velocity == 0, velocity = \(v)")
 
         try iteration.move(card: card, to: columns[1])
 
         v = iteration.velocity()
-        assert( v == 5, "velocity == 5, velocity = \(v)")
+        assert(v == 5, "velocity == 5, velocity = \(v)")
 
         assert( card.column === columns[1],
                 "card.column == columns[1], card.column = \(String(describing: card.column))")
@@ -73,7 +77,9 @@ func defaultTest() throws {
     }
 }
 
-
+//
+// Test error checking for column validation during board creation
+//
 func columnTests() throws {
 
     do {
@@ -122,7 +128,9 @@ func columnTests() throws {
 
 }
 
-
+//
+// Test error handling for adding and moving cards
+//
 func cardTests() throws {
 
     do {
@@ -133,7 +141,7 @@ func cardTests() throws {
         let iteration = board.iteration
 
         var v = iteration.velocity()
-        assert( v == 0, "velocity == 0, velocity = \(v)")
+        assert(v == 0, "velocity == 0, velocity = \(v)")
 
         let card = Card(title: "card title", description: "this is a card", estimate: 5)
 
@@ -177,13 +185,24 @@ func cardTests() throws {
         try iteration.move(card: card2, to: columns[1])
 
         v = iteration.velocity()
-        assert( v == 47, "velocity == 47, velocity = \(v)")
+        assert(v == 47, "velocity == 47, velocity = \(v)")
+
+        var cards = try iteration.cards(in: columns[0])
+        assert(cards.count == 0, "cards.count == 0, cards.count = \(cards.count)")
+
+        cards = try iteration.cards(in: columns[1])
+        assert(cards.count == 2, "cards.count == 2, cards.count = \(cards.count)")
+
+
     }
     catch {
         assertionFailure("unexpected error: \(error)")
     }
 }
 
+//
+// Test error handling for undo'ing card moves
+//
 func undoMoveTests() throws {
 
     do {
@@ -208,7 +227,6 @@ func undoMoveTests() throws {
 
         try iteration.move(card: card, to: columns[1])
 
-
         try  iteration.undoLastMove()
     }
     catch {
@@ -216,13 +234,43 @@ func undoMoveTests() throws {
     }
 }
 
+//
+// Test error handling for WIP points limits
+//
+func wipLimitTests() throws {
 
+    do {
+        let columns = [ Column(name: "starting", type: .starting, pointsLimit: 10),
+                        Column(name: "done", type: .done) ]
+
+        let board = try Board(columns: columns)
+        let iteration = board.iteration
+
+        let card = Card(title: "card title", description: "this is a card", estimate: 5)
+        try iteration.add(card: card)
+
+        let card2 = Card(title: "card title", description: "this is a card", estimate: 5)
+        try iteration.add(card: card2)
+
+        let card3 = Card(title: "card title", description: "this is a card", estimate: 5)
+        try iteration.add(card: card3)
+
+    }
+    catch {
+        assertionFailure("unexpected error: \(error)")
+    }
+}
+
+//
+// Program entry point
+//
 print("DiUS Agile Board Tests")
 do {
     try defaultTest()
     try columnTests()
     try cardTests()
     try undoMoveTests()
+    try wipLimitTests()
     print("All Tests Passed")
 } catch {
     print("Error: \(error)")
